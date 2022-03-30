@@ -1,0 +1,24 @@
+{
+  "name": "share-bot",
+  "version": "1.0.0",
+  "description": "discord bot for clean sharing of leetcode solutions and other things",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwhunt19/share-bot.git"
+  },
+  "author": "jwhunt19",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jwhunt19/share-bot/issues"
+  },
+  "homepage": "https://github.com/jwhunt19/share-bot#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  },
+  "type": "module"
+}
