@@ -26,7 +26,7 @@ client.on('messageCreate', (msg) => {
   }
 });
 
-// commands
+// bot commands
 client.on('messageCreate', async (msg) => {
   if (msg.author.bot) return;
   if (!msg.content.startsWith(prefix)) return;
@@ -36,24 +36,25 @@ client.on('messageCreate', async (msg) => {
   // send custom message to specific channel
   if (msgContent.startsWith('!send')) {
     // build command array
-    let cmd = msgContent.split(/ (.*)/s)
-    cmd.pop()
-    let lastIndex = cmd[1].lastIndexOf(' ')
-    cmd = [cmd[0], cmd[1].slice(0, lastIndex), cmd[1].slice(lastIndex + 1)]
-    lastIndex = cmd[1].lastIndexOf(' ')
-    cmd = [cmd[0], cmd[1].slice(0, lastIndex), cmd[1].slice(lastIndex + 1), cmd[2]]
-    
-    // typo handling
-    if (cmd.length !== 4 || cmd[2] !== 'to') {
-      msg.reply('There seems to be a typo in your request, please try again!')
+    function buildCommand(text) {
+      const reg = /^!send\s(.*)\sto\s<#(\d+)>$/;
+      const ms = text.match(reg);
+
+      if (!ms) {
+          console.warn('no matches found');
+        return;
+      }
+      
+      return [ms[1], ms[2]]
     }
+
+    const [message, channel] = buildCommand(msg.content)
     
     // TODO - add error handling, text search instead of direct channel id using this func
     // const ch = client.channels.cache.filter(channel => channel.name === "test-zone").map(channel => channel.id)
-    // console.log(ch)
-    const ch = await client.channels.fetch(cmd[3].slice(2, cmd[3].length - 1));
+    const ch = await client.channels.fetch(channel);
     if (ch.isText) {
-      ch.send(`<@!${msg.author.id}> says ${cmd[1]}`);
+      ch.send(`<@!${msg.author.id}> says ${message}`);
     }
   }
 });
